@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Electronic Voting Machine (EVM)</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>🗳️ Secure EVM</h1>
+                    <span class="election-title">2025 Municipal Election</span>
+                </div>
+                <div class="user-info" id="userInfo" style="display: none;">
+                    <span class="user-name" id="userName"></span>
+                    <span class="user-role" id="userRole"></span>
+                    <button class="btn btn--sm btn--outline" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login View -->
+    <div id="loginView" class="view active">
+        <div class="container">
+            <div class="login-container">
+                <div class="card">
+                    <div class="card__body">
+                        <h2>Secure Authentication</h2>
+                        <p class="text-secondary">Please authenticate to access the voting system</p>
+                        
+                        <form id="loginForm" class="login-form">
+                            <div class="form-group">
+                                <label class="form-label" for="username">Username</label>
+                                <input type="text" id="username" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="password">Password</label>
+                                <input type="password" id="password" class="form-control" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label" for="otp">One-Time Password</label>
+                                <input type="text" id="otp" class="form-control" placeholder="Enter 6-digit OTP">
+                                <button type="button" class="btn btn--sm btn--outline mt-8" onclick="generateOTP()">Generate OTP</button>
+                                <div id="otpDisplay" class="otp-display" style="display: none;"></div>
+                            </div>
+                            
+                            <div class="biometric-section">
+                                <button type="button" id="biometricBtn" class="btn btn--outline biometric-btn" onclick="simulateBiometric()">
+                                    <span class="biometric-icon">👆</span>
+                                    Verify Fingerprint
+                                </button>
+                                <div id="biometricStatus" class="status-indicator"></div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn--primary btn--full-width">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Voting View -->
+    <div id="votingView" class="view">
+        <div class="container">
+            <div class="voting-container">
+                <div class="voting-header">
+                    <h2>Cast Your Vote</h2>
+                    <p class="voting-instructions">Select one candidate to vote for. Your vote will be recorded securely and anonymously.</p>
+                    <div class="security-indicators">
+                        <span class="status status--success">🔒 Secure Connection</span>
+                        <span class="status status--success">✓ Authenticated</span>
+                        <span class="status status--info">📋 VVPAT Enabled</span>
+                    </div>
+                </div>
+                
+                <div class="candidates-grid" id="candidatesGrid">
+                    <!-- Candidates will be dynamically populated -->
+                </div>
+                
+                <div class="voting-actions" style="display: none;" id="votingActions">
+                    <button class="btn btn--secondary" onclick="resetVote()">Reset Selection</button>
+                    <button class="btn btn--primary" id="submitVoteBtn" onclick="submitVote()">Submit Vote</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard View -->
+    <div id="adminView" class="view">
+        <div class="container">
+            <div class="admin-dashboard">
+                <div class="dashboard-header">
+                    <h2>Election Administration Dashboard</h2>
+                    <div class="election-controls">
+                        <button class="btn btn--success" id="startVotingBtn" onclick="toggleVoting()">
+                            <span id="votingToggleText">Stop Voting</span>
+                        </button>
+                        <button class="btn btn--outline" onclick="exportResults()">Export Results</button>
+                    </div>
+                </div>
+                
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <h3>Total Votes Cast</h3>
+                        <div class="stat-number" id="totalVotes">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Voter Turnout</h3>
+                        <div class="stat-number" id="voterTurnout">0%</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>System Status</h3>
+                        <div class="status status--success" id="systemStatus">Online</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Security Alerts</h3>
+                        <div class="stat-number alert-count" id="alertCount">0</div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-content">
+                    <div class="tally-section">
+                        <h3>Real-time Vote Tally</h3>
+                        <div class="chart-container" style="position: relative; height: 400px;">
+                            <canvas id="tallyChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-section">
+                        <h3>Recent Activity</h3>
+                        <div class="activity-feed" id="activityFeed">
+                            <!-- Activity items will be populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audit View -->
+    <div id="auditView" class="view">
+        <div class="container">
+            <div class="audit-dashboard">
+                <div class="audit-header">
+                    <h2>System Audit & Verification</h2>
+                    <div class="audit-controls">
+                        <button class="btn btn--outline" onclick="verifyHashChain()">Verify Hash Chain</button>
+                        <button class="btn btn--outline" onclick="exportAuditLog()">Export Audit Log</button>
+                    </div>
+                </div>
+                
+                <div class="audit-stats">
+                    <div class="stat-card">
+                        <h3>Audit Records</h3>
+                        <div class="stat-number" id="auditRecordCount">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Hash Chain Status</h3>
+                        <div class="status status--success" id="hashChainStatus">Intact</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Vote Integrity</h3>
+                        <div class="status status--success" id="voteIntegrity">Verified</div>
+                    </div>
+                </div>
+                
+                <div class="audit-content">
+                    <div class="audit-filters">
+                        <select class="form-control" id="auditFilter">
+                            <option value="">All Actions</option>
+                            <option value="login">Login Events</option>
+                            <option value="vote">Vote Records</option>
+                            <option value="admin">Admin Actions</option>
+                        </select>
+                        <button class="btn btn--outline" onclick="filterAuditLog()">Filter</button>
+                    </div>
+                    
+                    <div class="audit-log" id="auditLog">
+                        <!-- Audit log entries will be populated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vote Confirmation Modal -->
+    <div id="voteModal" class="modal hidden">
+        <div class="modal-overlay" onclick="closeVoteModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirm Your Vote</h3>
+                <button class="modal-close" onclick="closeVoteModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="vote-confirmation">
+                    <p>You have selected:</p>
+                    <div class="selected-candidate" id="selectedCandidate">
+                        <!-- Selected candidate details -->
+                    </div>
+                    <p class="confirmation-warning">⚠️ Once submitted, your vote cannot be changed.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn--secondary" onclick="closeVoteModal()">Cancel</button>
+                <button class="btn btn--primary" onclick="confirmVote()">Confirm Vote</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VVPAT Receipt Modal -->
+    <div id="receiptModal" class="modal hidden">
+        <div class="modal-overlay" onclick="closeReceiptModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Voter Verified Paper Audit Trail (VVPAT)</h3>
+                <button class="modal-close" onclick="closeReceiptModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="vvpat-receipt" id="vvpatReceipt">
+                    <!-- VVPAT receipt will be populated -->
+                </div>
+                <div class="receipt-actions">
+                    <button class="btn btn--outline" onclick="printReceipt()">🖨️ Print Receipt</button>
+                    <button class="btn btn--primary" onclick="closeReceiptModal()">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert System -->
+    <div id="alertContainer" class="alert-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
