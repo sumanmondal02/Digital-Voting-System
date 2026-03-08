@@ -33,7 +33,7 @@ Currently, the frontend simulates the voting workflow while the backend provides
 
 ---
 
-# Application Preview
+# 📱 Application Preview
 
 ## Login Interface
 
