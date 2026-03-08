@@ -33,6 +33,34 @@ Currently, the frontend simulates the voting workflow while the backend provides
 
 ---
 
+# Application Preview
+
+## Login Interface
+
+<p align="center">
+  <img src="assets/login.png" width="85%">
+</p>
+
+## Voting Interface
+
+<p align="center">
+  <img src="assets/voting.png" width="85%">
+</p>
+
+## Admin Dashboard
+
+<p align="center">
+  <img src="assets/admin.png" width="85%">
+</p>
+
+## VVPAT Vote Receipt
+
+<p align="center">
+  <img src="assets/vvpat.png" width="75%">
+</p>
+
+---
+
 # 🚀 Features
 
 ## 🔐 Secure Authentication (Simulated)
