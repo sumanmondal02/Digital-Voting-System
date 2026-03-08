@@ -18,29 +18,29 @@ class EVMSystem {
         this.candidates = [
             {
                 candidate_id: "564600A97",
-                name: "Narendra Modi",
-                party: "BJP",
+                name: "James Bond",
+                party: "Star Alliance",
                 vote_count: 0,
                 color: "#2E86AB"
             },
             {
                 candidate_id: "UY4564231", 
-                name: "Rahul Gandhi",
-                party: "INC",
+                name: "Charlotte Smith",
+                party: "Congress",
                 vote_count: 0,
                 color: "#A23B72"
             },
             {
                 candidate_id: "8675431AS",
-                name: "Mamta Banerjee",
-                party: "AITC",
+                name: "William Johnson",
+                party: "People's Democratic Front",
                 vote_count: 0,
                 color: "#F18F01"
             },
             {
                 candidate_id: "43563232AG",
-                name: "Nithin Gadkari",
-                party: "BRS",
+                name: "Emily Davis",
+                party: "Order of the Phoenix",
                 vote_count: 0,
                 color: "#C73E1D"
             }
